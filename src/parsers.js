@@ -1,6 +1,4 @@
-const { cronRanges, validateType, isInt } = require('./utils')
-
-const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+const { cronRanges, validateType, isInt, range } = require('./utils')
 
 const rangeParser = (value) => {
   const [ min, max ] = value.split('-');
@@ -57,5 +55,10 @@ const parsers = {
 }
 
 module.exports = {
-  parseCron
+  parseCron,
+  rangeParser,
+  listParser,
+  frequencyParser,
+  wildcardParser,
+  matchParser,
 }
