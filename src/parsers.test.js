@@ -4,7 +4,6 @@ const {
   frequencyParser,
   wildcardParser,
   matchParser,
-  parseCron,
 } = require('./parsers');
 
 describe('#rangeParser', () => {
@@ -73,5 +72,37 @@ describe('#wildcardParser', () => {
     const parsedWildcard = wildcardParser(invalidWildcard, type);
     const expected = '1-5'
     expect(invalidWildcard).toEqual('1-5');
+  })
+})
+
+describe('#matchParser', () => {
+  it('should find the correct parser when a range value is supplied', () => {
+    const value = '1-5';
+    const parserFunction = matchParser(value);
+    expect(parserFunction).toEqual(expect.any(Function));
+    expect(parserFunction.name).toEqual('rangeParser');
+  })
+  it('should find the correct parser when a list value is supplied', () => {
+    const value = '1,2,3';
+    const parserFunction = matchParser(value);
+    expect(parserFunction).toEqual(expect.any(Function));
+    expect(parserFunction.name).toEqual('listParser');
+  })
+  it('should find the correct parser when a wildcare value is supplied', () => {
+    const value = '*';
+    const parserFunction = matchParser(value);
+    expect(parserFunction).toEqual(expect.any(Function));
+    expect(parserFunction.name).toEqual('wildcardParser');
+  })
+  it('should find the correct parser when a frequency value is supplied', () => {
+    const value = '1/5';
+    const parserFunction = matchParser(value);
+    expect(parserFunction).toEqual(expect.any(Function));
+    expect(parserFunction.name).toEqual('frequencyParser');
+  })
+  it('should not return a parser when an invalid value is supplied', () => {
+    const value = '1-5-6';
+    const parserFunction = matchParser(value);
+    expect(parserFunction).toBe(undefined);
   })
 })
